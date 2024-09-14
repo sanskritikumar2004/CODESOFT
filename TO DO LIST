@@ -1,0 +1,56 @@
+#TO DO LIST
+
+import tkinter as tk
+from tkinter import messagebox
+
+def add_task():
+    task = task_entry.get()
+    if task:
+        task_listbox.insert(tk.END, task)
+        task_entry.delete(0, tk.END)
+    else:
+        messagebox.showwarning("Input Error", "Please enter a task.")
+
+def delete_task():
+    try:
+        selected_index = task_listbox.curselection()[0]
+        task_listbox.delete(selected_index)
+    except IndexError:
+        messagebox.showwarning("Selection Error", "Please select a task to delete.")
+
+def mark_complete():
+    try:
+        selected_index = task_listbox.curselection()[0]
+        task = task_listbox.get(selected_index)
+        task_listbox.delete(selected_index)
+        task_listbox.insert(tk.END, f"{task} (Completed)")
+    except IndexError:
+        messagebox.showwarning("Selection Error", "Please select a task to mark as complete.")
+
+# Initialize the main window
+root = tk.Tk()
+root.title("To-Do List")
+
+# Set background color for the main window
+root.config(bg="#f0f8ff")
+
+# Set up the layout
+tk.Label(root, text="Enter a new task:", font="Arial 12 italic", bg="#f0f8ff", fg="#333333").pack(pady=5)
+
+task_entry = tk.Entry(root, width=50, font="Arial 12 italic")
+task_entry.pack(pady=5)
+
+add_button = tk.Button(root, text="Add Task", font="Arial 12 italic", bg="#add8e6", fg="#000000", command=add_task)
+add_button.pack(pady=5)
+
+task_listbox = tk.Listbox(root, width=50, height=10, font="Arial 12 italic", bg="#ffffff", fg="#000000", selectbackground="#b0e0e6", selectforeground="#000000")
+task_listbox.pack(pady=5)
+
+delete_button = tk.Button(root, text="Delete Task", font="Arial 12 italic", bg="#ffcccb", fg="#000000", command=delete_task)
+delete_button.pack(pady=5)
+
+complete_button = tk.Button(root, text="Mark Complete", font="Arial 12 italic", bg="#98fb98", fg="#000000", command=mark_complete)
+complete_button.pack(pady=5)
+
+# Run the main loop
+root.mainloop()
